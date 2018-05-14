@@ -1,0 +1,5 @@
+{
+  "AWSEBDockerrunVersion": 1,
+  "Logging": "/usr/local/tomcat/logs",
+  "Volumes": []
+}
