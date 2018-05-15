@@ -1,4 +1,5 @@
-## Docker with multiple processes
+Example - Docker with multiple processes
+========================================
 
 In order to run multiple processes on Docker it is expected to execute them via `supervisor` program that monitors and restarts configured processes, this `supervisor` will be the sole process that is monitored by Docker.
 
@@ -13,12 +14,12 @@ transitions to `failed state`.
 
 Container needs to be built and for this it needs `.WAR`, `Dockerfile`.
 
-- `docker build -t myapp .` - here `myapp` is arbitrary tag name we're gonna reuse in next command
+- `$ docker build -t myapp .` - here `myapp` is arbitrary tag name we're gonna reuse in next command
 - Then run container
   ```
-  docker run --rm -e "JAVA_OPTS=-Xmx1g -Xms512M -XX:MaxPermSize=1024m -Dstringchararrayaccessor.disabled=true" -it -p 8080:8080 myapp
+  $ docker run --rm -e "JAVA_OPTS=-Xmx1g -Xms512M -XX:MaxPermSize=1024m" -it -p 8080:8080 myapp
   ```
-  - `JAVA_OPTS` are necessary as otherwise instance might run out of PermGen space.
+  - `JAVA_OPTS` are optional but instance might run out of PermGen space, this depends on your program packed in `war` file
 - Open browser at `http://localhost:8080`
 
 ### Check if all expected processes are running
@@ -32,8 +33,8 @@ Container needs to be built and for this it needs `.WAR`, `Dockerfile`.
   - `python` - event listener that makes sure `supervisord` makes suicide is `cron` or `java` tranision to failed state
 - `root@$id:/usr/local/tomcat# supervisorctl` - states of processes under supervisor:
   - `exit_on_any_fatal` has to be in `RUNNING` state
-  - `lha:catalina` has to be in `RUNNING` state
-  - `lha:cron` has to be in `RUNNING` state
+  - `catalina` has to be in `RUNNING` state
+  - `cron` has to be in `RUNNING` state
 - `supervisor> exit` - exit the supervisor
 
 #### Check `cron` is executing
